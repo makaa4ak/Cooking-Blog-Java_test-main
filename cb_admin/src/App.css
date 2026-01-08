@@ -1,0 +1,39 @@
+/* ===== Common things ===== */
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.btn {
+    padding: 10px 25px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.2s;
+    color: white;
+}
+
+.btn-create,
+.btn-save,
+.btn-view {
+    background: #3a7ee2;
+}
+.btn-create:hover,
+.btn-save:hover,
+.btn-view:hover {
+    background: #1d5fba;
+}
+
+.btn-edit { background: #f0ad4e; }
+.btn-edit:hover { background: #dd9f46; }
+
+.btn-delete { background: #e44949; }
+.btn-delete:hover { background: #c53b3b; }
+
+.btn-back { background: #777; }
+.btn-back:hover { background: #555; }
