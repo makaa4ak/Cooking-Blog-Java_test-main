@@ -1,15 +1,15 @@
-# 1. Базовый образ Maven + JDK 17
-FROM maven:3.9.8-jdk-17
+# Рабочий образ Maven + JDK 17
+FROM maven:3.8.8-openjdk-17
 
-# 2. Копируем весь проект
+# Копируем проект
 COPY . /app
 WORKDIR /app
 
-# 3. Собираем проект без тестов
+# Собираем проект без тестов
 RUN mvn clean package -DskipTests
 
-# 4. Открываем порт 8080
+# Открываем порт 8080
 EXPOSE 8080
 
-# 5. Старт приложения
+# Старт приложения
 CMD ["java", "-jar", "target/CB_Backend-0.0.1-SNAPSHOT.jar"]
