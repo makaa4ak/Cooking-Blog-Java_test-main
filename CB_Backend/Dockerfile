@@ -1,5 +1,5 @@
-# 1. Базовый образ с Maven + JDK 25
-FROM maven:3.9.5-eclipse-temurin-25
+# 1. Базовый образ Maven + JDK 25 (официальный)
+FROM maven:3.9.8-eclipse-temurin-25
 
 # 2. Копируем весь проект
 COPY . /app
