@@ -1,18 +1,29 @@
-# 1. Базовый образ OpenJDK 17, который точно есть
-FROM openjdk:17
-
-# 2. Копируем проект
-COPY . /app
+# Етап 1 — збірка на Java 25
+FROM eclipse-temurin:25-jdk AS builder
 WORKDIR /app
 
-# 3. Устанавливаем Maven вручную
-RUN apt-get update && apt-get install -y maven
+# Копіюємо Gradle-файли
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle settings.gradle ./
 
-# 4. Собираем проект без тестов
-RUN mvn clean package -DskipTests
+# Копіюємо код
+COPY src src
 
-# 5. Открываем порт 8080
-EXPOSE 8080
+# Даємо права на виконання та збираємо
+RUN chmod +x gradlew
+RUN ./gradlew build -x test --no-daemon
 
-# 6. Старт приложения
-CMD ["java", "-jar", "target/CB_Backend-0.0.1-SNAPSHOT.jar"]
+# Етап 2 — фінальний образ (JRE 25)
+FROM eclipse-temurin:25-jre AS runtime
+WORKDIR /app
+
+# Копіюємо готовий JAR
+COPY --from=builder /app/build/libs/*.jar app.jar
+
+# Порт від Render (за замовчуванням 8080)
+ENV PORT=8080
+EXPOSE ${PORT}
+
+# Запуск з динамічним портом
+ENTRYPOINT ["sh", "-c", "java -Dserver.port=${PORT} -jar app.jar"]
